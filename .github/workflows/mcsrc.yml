@@ -15,14 +15,17 @@ jobs:
           distribution: 'microsoft'
       - run: chmod +x ./gradlew && ./gradlew genSources --no-configuration-cache
       - name: extract classes
+        shell: bash
         run: |
-          J=$(find ~/.gradle .gradle -name "*sources.jar" 2>/dev/null | grep -i minecraft | grep -iv fabric-api | head -5)
-          echo "$J"
+          set +e
           mkdir -p /tmp/src && cd /tmp/src
-          for j in $J; do unzip -qo "$j" 'net/minecraft/client/Minecraft.java' 'net/minecraft/client/player/*' 'net/minecraft/client/multiplayer/MultiPlayerGameMode.java' 'net/minecraft/world/entity/player/*' 'net/minecraft/world/inventory/InventoryMenu.java' 'net/minecraft/world/inventory/AbstractContainerMenu.java' 'net/minecraft/world/inventory/Click*.java' 'net/minecraft/world/inventory/Container*.java' 'net/minecraft/world/entity/LivingEntity.java' 'net/minecraft/network/protocol/game/ServerboundPlayerCommandPacket.java' 'net/minecraft/world/item/FireworkRocketItem.java' 'net/minecraft/world/item/ElytraItem.java' 'net/minecraft/client/gui/Gui.java' 2>/dev/null || true; done
+          find ~/.gradle "$GITHUB_WORKSPACE/.gradle" "$GITHUB_WORKSPACE/build" -name "*.jar" 2>/dev/null | grep -i "sources" > jars.txt
+          cat jars.txt
+          while read j; do unzip -qo "$j" 'net/minecraft/*' -x 'net/minecraft/data/*' 'net/minecraft/gametest/*' 2>/dev/null; done < jars.txt
           find . -name "*.java" | wc -l
           git init -q -b mcsrc
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add -A && git commit -q -m "mc sources"
+          git add -A
+          git commit -q -m "mc sources"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" mcsrc
