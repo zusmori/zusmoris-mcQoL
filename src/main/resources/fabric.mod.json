@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "spearswap",
+	"version": "${version}",
+	"name": "zusmori's Spear Swap",
+	"description": "Erkennt Speere und macht den Lunge-Attribute-Swap automatisch per Linksklick.",
+	"authors": ["zusmori"],
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["de.zusmori.spearswap.SpearSwapClient"]
+	},
+	"mixins": [
+		{
+			"config": "spearswap.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

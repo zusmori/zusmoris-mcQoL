@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "de.zusmori.spearswap.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"MinecraftAccessor",
+		"MinecraftMixin",
+		"MultiPlayerGameModeAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
