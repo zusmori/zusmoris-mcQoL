@@ -56,6 +56,16 @@ public class McQoLClient implements ClientModInitializer {
 		});
 
 		LOGGER.info("zusmori's mcQoL geladen");
+
+		// Nur für den automatischen Test auf GitHub: alle Mixins sofort anwenden und prüfen
+		if (Boolean.getBoolean("mcqol.audit")) {
+			try {
+				org.spongepowered.asm.mixin.MixinEnvironment.getCurrentEnvironment().audit();
+				LOGGER.info("MCQOL-AUDIT-OK");
+			} catch (Throwable t) {
+				LOGGER.error("MCQOL-AUDIT-FAILED", t);
+			}
+		}
 	}
 
 	private static void notify(Minecraft client, String feature, boolean on) {
