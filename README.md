@@ -2,56 +2,45 @@
 
 <img src="src/main/resources/assets/mcqol/icon.png" width="128" alt="Logo">
 
-Kleine Quality-of-Life-Mod für **Minecraft 26.3 (Fabric)**. Läuft nur im Client und ist für Singleplayer gedacht.
+Small quality of life mod for **Minecraft 26.3 (Fabric)**. Client only, made for singleplayer.
 
 ## Features
 
-### Spear Swap (Taste **K** an/aus)
-Speer-Lunge ohne den langen Speer-Cooldown, per Attribute Swap.
-1. Speer in die Hotbar legen, mindestens einen Hotbar-Slot frei lassen.
-2. Speer auswählen und **linksklicken**: Stoß mit dem Speer, danach Wechsel auf den leeren Slot.
-3. Ab jetzt **linksklicken oder Linksklick halten**: Speer nehmen, zustechen, zurück, alles im selben Tick.
-4. Einen anderen Slot auswählen beendet den Modus.
+**Spear Swap** (K)
+Hold a spear and left click. Then keep clicking (or hold) to lunge with no cooldown. Keep one hotbar slot empty.
 
-### Auto-Elytra (Taste **J** an/aus)
-1. Einfach eine **Rakete benutzen** (Rechtsklick), egal ob am Boden oder in der Luft.
-2. Die Elytra wird automatisch angezogen, egal ob sie in der Hotbar, im Inventar oder in der Zweithand liegt. Deine Brustplatte kommt so lange an ihren Platz.
-3. Am Boden springst du automatisch ab, fängst an zu gleiten und die Rakete zündet.
-4. **Nach der Landung** wird die Brustplatte wieder angezogen und die Elytra zurückgelegt.
+**Auto Elytra** (J)
+Use a rocket and your elytra goes on by itself, from anywhere in your inventory. You jump and fly. After landing, your chestplate goes back on.
 
-### Sicht
-- **Low Fire**: Das Feuer am Bildschirm wird nach unten verschoben (Höhe einstellbar).
-- **Kleines Totem**: Die Totem-Animation wird kleiner angezeigt (Größe einstellbar).
-- **Kein Nebel**: Entfernt den Nebel in der Ferne und am Rand der Sichtweite.
-- **Klare Sicht unter Wasser**: Unter Wasser siehst du weit, der blaue Farbton bleibt, damit du merkst, dass du unter Wasser bist.
+**Low Fire**
+Fire on your screen sits lower.
 
-### Animationen
-- **Keine Abbau-Risse**: Blendet die Risse beim Abbauen von Blöcken aus.
-- **Kein Kamerawackeln**: Die Kamera wackelt nicht mehr, wenn du Schaden bekommst. Das rote Aufblinken bleibt.
+**Small Totem**
+The totem pop is smaller.
 
-## Einstellungen
-Alles lässt sich über **Mod Menu** (Zahnrad bei der Mod) oder im Spiel mit **O** an- und ausschalten.
-Gespeichert wird in `.minecraft/config/mcqol.properties`.
-| Eintrag | Standard | Bedeutung |
-|---|---|---|
-| `spear.enabled` | true | Spear Swap an/aus |
-| `spear.auto_repeat` | true | Linksklick halten = Dauer-Lunge |
-| `spear.fallback_slot` | 6 | Slot 1–9, falls kein Hotbar-Slot frei ist |
-| `elytra.enabled` | true | Auto-Elytra an/aus |
-| `elytra.launch_from_ground` | true | Am Boden automatisch abspringen |
-| `elytra.restore_chestplate` | true | Nach der Landung Brustplatte wieder anziehen |
-| `visual.low_fire` | true | Feuer tiefer |
-| `visual.fire_offset` | 0.3 | Wie weit tiefer (0.0–0.5) |
-| `visual.small_totem` | true | Kleineres Totem |
-| `visual.totem_scale` | 0.5 | Totem-Größe (0.1–1.0) |
-| `visual.no_fog` | true | Kein Nebel |
-| `visual.clear_water` | true | Klare Sicht unter Wasser |
-| `animation.no_break_animation` | true | Keine Abbau-Risse |
-| `animation.no_hurt_cam` | true | Kein Kamerawackeln |
+**No Fog**
+No fog in the distance.
 
-## Voraussetzungen
-Fabric Loader 0.19.5+, Fabric API für 26.3, Java 25. Optional: Mod Menu für die Einstellungsseite.
+**Clear Water**
+See far underwater. The blue tint stays.
 
-## Bauen
-GitHub Actions baut die Mod bei jedem Push. Die fertige .jar liegt im Branch `builds`.
-Lokal: `gradlew.bat build` → `build/libs/zusmoris-mcqol-<version>.jar`
+**No Break Cracks**
+No cracks when mining blocks.
+
+**No Hurt Shake**
+No camera shake when you get hit.
+
+## Settings
+Open with **Mod Menu** or press **O** in game. Everything can be turned on or off.
+
+Saved in `.minecraft/config/mcqol.properties`.
+
+## Requirements
+- Fabric Loader 0.19.5+
+- Fabric API for 26.3
+- Java 25
+- Mod Menu (optional)
+
+## Build
+GitHub builds the mod on every push. The `.jar` is in the `builds` branch.
+Local: `gradlew.bat build`

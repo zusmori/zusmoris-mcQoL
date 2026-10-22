@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
-	/** Kein Kamerawackeln bei Schaden. Die Todes-Animation bleibt erhalten. */
+	/** No Hurt Shake: no camera shake when hit. The death animation stays. */
 	@Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
 	private void mcqol$noHurtCam(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
 		if (McQoLConfig.noHurtCam && !cameraState.entityRenderState.isDeadOrDying) {

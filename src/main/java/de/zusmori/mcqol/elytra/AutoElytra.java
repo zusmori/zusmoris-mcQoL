@@ -16,29 +16,29 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.Equippable;
 
 /**
- * Auto-Elytra:
- * - Rakete benutzen, ohne zu gleiten: Elytra wird aus Hotbar/Inventar angezogen (Brustplatte kommt
- *   an den Platz der Elytra), du springst ab, fängst an zu gleiten und die Rakete zündet.
- * - Nach der Landung wird die Brustplatte wieder angezogen und die Elytra zurückgelegt.
+ * Auto Elytra:
+ * - Use a rocket while not flying: the elytra is put on from your hotbar/inventory (the chestplate
+ *   goes where the elytra was), you jump, start flying and the rocket fires.
+ * - After landing the chestplate goes back on and the elytra goes back to its slot.
  *
- * Slot-Nummern im Spielerinventar (InventoryMenu): 6 = Brust, 9-35 = Inventar,
- * 36-44 = Hotbar, 45 = Zweithand.
+ * Slot numbers in the player inventory (InventoryMenu): 6 = chest, 9-35 = inventory,
+ * 36-44 = hotbar, 45 = offhand.
  */
 public final class AutoElytra {
 	private static final int CHEST_SLOT = 6;
 	private static final int LAUNCH_TIMEOUT_TICKS = 20;
 	private static final int LANDED_TICKS_NEEDED = 3;
 
-	/** Wartet darauf, nach dem Absprung zu gleiten und die Rakete zu zünden. */
+	/** Waiting to start flying after the jump and fire the rocket. */
 	private static boolean pendingLaunch = false;
 	private static InteractionHand launchHand = InteractionHand.MAIN_HAND;
 	private static int launchTicks = 0;
 
-	/** Elytra wurde von der Mod angezogen und soll nach der Landung zurück. */
+	/** The mod put the elytra on and should swap back after landing. */
 	private static boolean autoEquipped = false;
-	/** Menü-Slot, in dem jetzt die alte Brustplatte liegt (vorher die Elytra). */
+	/** Menu slot that now holds the old chestplate (where the elytra was). */
 	private static int swappedSlot = -1;
-	/** War die Brust vorher leer? */
+	/** Was the chest slot empty before? */
 	private static boolean chestWasEmpty = false;
 	private static int landedTicks = 0;
 
@@ -50,17 +50,17 @@ public final class AutoElytra {
 		landedTicks = 0;
 	}
 
-	/** Wird beim Rechtsklick aufgerufen. true = Vanilla-Verhalten abbrechen. */
+	/** Called on right click. true = cancel vanilla. */
 	public static boolean onUseItem(Minecraft mc) {
 		LocalPlayer player = mc.player;
 		if (!McQoLConfig.elytraEnabled || player == null || mc.gameMode == null) {
 			return false;
 		}
 		if (pendingLaunch) {
-			return true; // Start läuft schon, Rakete nicht doppelt verbrauchen
+			return true; // launch already running, don't use a second rocket
 		}
 		if (player.isFallFlying() || player.isPassenger() || player.isInLiquid() || player.getAbilities().flying) {
-			return false; // Vanilla: im Flug normal boosten
+			return false; // vanilla: normal boost while flying
 		}
 
 		InteractionHand hand;
@@ -77,10 +77,10 @@ public final class AutoElytra {
 			return false;
 		}
 
-		// Elytra anziehen, falls noch nicht an
+		// put on the elytra if it's not on yet
 		if (!LivingEntity.canGlideUsing(player.getItemBySlot(EquipmentSlot.CHEST), EquipmentSlot.CHEST)) {
 			if (!equipElytra(mc, player)) {
-				return false; // keine Elytra gefunden -> Vanilla
+				return false; // no elytra found -> vanilla
 			}
 		}
 
@@ -92,12 +92,12 @@ public final class AutoElytra {
 		if (onGround) {
 			player.jumpFromGround();
 		} else {
-			tryLaunch(mc, player); // in der Luft: sofort losfliegen
+			tryLaunch(mc, player); // in the air: start flying right away
 		}
 		return true;
 	}
 
-	/** Läuft am Ende jedes Client-Ticks. */
+	/** Runs at the end of every client tick. */
 	public static void onTick(Minecraft mc) {
 		LocalPlayer player = mc.player;
 		if (player == null || mc.gameMode == null) {
@@ -138,7 +138,7 @@ public final class AutoElytra {
 		}
 	}
 
-	/** Sucht eine Elytra im Inventar und tauscht sie mit dem Brust-Slot. */
+	/** Finds an elytra in the inventory and swaps it with the chest slot. */
 	private static boolean equipElytra(Minecraft mc, LocalPlayer player) {
 		if (!canClickInventory(player)) {
 			return false;
@@ -159,7 +159,7 @@ public final class AutoElytra {
 		swapWithChest(mc, player, elytraSlot);
 
 		if (!LivingEntity.canGlideUsing(player.getItemBySlot(EquipmentSlot.CHEST), EquipmentSlot.CHEST)) {
-			return false; // z. B. Fluch der Bindung
+			return false; // e.g. Curse of Binding
 		}
 		autoEquipped = true;
 		swappedSlot = elytraSlot;
@@ -167,15 +167,15 @@ public final class AutoElytra {
 		return true;
 	}
 
-	/** Nach der Landung: Brustplatte wieder an, Elytra an ihren alten Platz. */
+	/** After landing: chestplate back on, elytra back to its old slot. */
 	private static void restoreChestplate(Minecraft mc, LocalPlayer player) {
 		if (!canClickInventory(player)) {
-			return; // später nochmal versuchen
+			return; // try again later
 		}
 		InventoryMenu menu = player.inventoryMenu;
 		autoEquipped = false;
 
-		// Trägt man inzwischen gar keine Elytra mehr, nichts anfassen
+		// not wearing an elytra anymore: don't touch anything
 		if (!menu.getSlot(CHEST_SLOT).getItem().has(DataComponents.GLIDER)) {
 			return;
 		}
@@ -185,7 +185,7 @@ public final class AutoElytra {
 		if (chestWasEmpty ? inSwapped.isEmpty() : isChestArmor(inSwapped)) {
 			target = swappedSlot;
 		} else {
-			// Brustplatte wurde verschoben: irgendeine Brustplatte im Inventar suchen
+			// chestplate was moved: look for any chestplate in the inventory
 			for (int i = InventoryMenu.INV_SLOT_START; i < InventoryMenu.SHIELD_SLOT; i++) {
 				if (isChestArmor(menu.getSlot(i).getItem())) {
 					target = i;
@@ -202,7 +202,7 @@ public final class AutoElytra {
 		int id = player.inventoryMenu.containerId;
 		boolean slotEmpty = player.inventoryMenu.getSlot(slot).getItem().isEmpty();
 		if (slotEmpty) {
-			// Brust-Item in den leeren Slot legen
+			// move the chest item into the empty slot
 			mc.gameMode.handleContainerInput(id, CHEST_SLOT, 0, ContainerInput.PICKUP, player);
 			mc.gameMode.handleContainerInput(id, slot, 0, ContainerInput.PICKUP, player);
 		} else {

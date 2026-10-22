@@ -15,7 +15,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
-/** Einstellungsseite, erreichbar über Mod Menu (oder per Taste O im Spiel). */
+/** Settings screen. Opens from Mod Menu or with the O key. */
 public class McQoLConfigScreen extends Screen {
 	private static final int BUTTON_WIDTH = 150;
 	private static final int BUTTON_HEIGHT = 20;
@@ -34,58 +34,58 @@ public class McQoLConfigScreen extends Screen {
 		int right = this.width / 2 + 5;
 		int top = 40;
 
-		// Linke Spalte: Kampf & Bewegung, Animationen
+		// Left column: combat, movement, animations
 		int y = top;
 		toggle(left, y, "Spear Swap", McQoLConfig.spearEnabled,
-				"Speer-Lunge ohne Cooldown per Linksklick (Taste K)",
+				"Lunge with no cooldown",
 				v -> { McQoLConfig.spearEnabled = v; SpearSwap.reset(); });
 		y += ROW;
-		toggle(left, y, "Linksklick halten", McQoLConfig.spearAutoRepeat,
-				"Linksklick gedrückt halten = Dauer-Lunge",
+		toggle(left, y, "Hold to Lunge", McQoLConfig.spearAutoRepeat,
+				"Hold left click to keep lunging",
 				v -> McQoLConfig.spearAutoRepeat = v);
 		y += ROW;
-		toggle(left, y, "Auto-Elytra", McQoLConfig.elytraEnabled,
-				"Rakete benutzen zieht automatisch die Elytra an (Taste J)",
+		toggle(left, y, "Auto Elytra", McQoLConfig.elytraEnabled,
+				"Use a rocket to put on your elytra",
 				v -> { McQoLConfig.elytraEnabled = v; AutoElytra.reset(); });
 		y += ROW;
-		toggle(left, y, "Vom Boden starten", McQoLConfig.elytraLaunchFromGround,
-				"Am Boden automatisch abspringen und losfliegen",
+		toggle(left, y, "Ground Launch", McQoLConfig.elytraLaunchFromGround,
+				"Jump and fly when on the ground",
 				v -> McQoLConfig.elytraLaunchFromGround = v);
 		y += ROW;
-		toggle(left, y, "Brustplatte zurück", McQoLConfig.elytraRestoreChestplate,
-				"Nach der Landung wieder die Brustplatte anziehen",
+		toggle(left, y, "Swap Back", McQoLConfig.elytraRestoreChestplate,
+				"Put your chestplate back on after landing",
 				v -> McQoLConfig.elytraRestoreChestplate = v);
 		y += ROW;
-		toggle(left, y, "Keine Abbau-Risse", McQoLConfig.noBreakAnimation,
-				"Blendet die Risse beim Abbauen von Blöcken aus",
+		toggle(left, y, "No Break Cracks", McQoLConfig.noBreakAnimation,
+				"Hide cracks when mining",
 				v -> McQoLConfig.noBreakAnimation = v);
 		y += ROW;
-		toggle(left, y, "Kein Kamerawackeln", McQoLConfig.noHurtCam,
-				"Kamera wackelt nicht mehr, wenn du Schaden bekommst (rotes Aufblinken bleibt)",
+		toggle(left, y, "No Hurt Shake", McQoLConfig.noHurtCam,
+				"No camera shake when hit",
 				v -> McQoLConfig.noHurtCam = v);
 
-		// Rechte Spalte: Sicht
+		// Right column: visuals
 		y = top;
 		toggle(right, y, "Low Fire", McQoLConfig.lowFire,
-				"Feuer am Bildschirm wird nach unten verschoben",
+				"Move fire lower on screen",
 				v -> McQoLConfig.lowFire = v);
 		y += ROW;
-		slider(right, y, "Feuer tiefer", 0.0, 0.5, McQoLConfig.fireOffset, true,
-				v -> McQoLConfig.fireOffset = (float) (double) v);
+		slider(right, y, "Fire Height", 0.0, 0.5, McQoLConfig.fireOffset,
+				v -> McQoLConfig.fireOffset = (float) (double) v, true);
 		y += ROW;
-		toggle(right, y, "Kleines Totem", McQoLConfig.smallTotem,
-				"Die Totem-Animation wird kleiner angezeigt",
+		toggle(right, y, "Small Totem", McQoLConfig.smallTotem,
+				"Make the totem pop smaller",
 				v -> McQoLConfig.smallTotem = v);
 		y += ROW;
-		slider(right, y, "Totem-Größe", 0.1, 1.0, McQoLConfig.totemScale, false,
-				v -> McQoLConfig.totemScale = (float) (double) v);
+		slider(right, y, "Totem Size", 0.1, 1.0, McQoLConfig.totemScale,
+				v -> McQoLConfig.totemScale = (float) (double) v, false);
 		y += ROW;
-		toggle(right, y, "Kein Nebel", McQoLConfig.noFog,
-				"Entfernt den Nebel in der Ferne",
+		toggle(right, y, "No Fog", McQoLConfig.noFog,
+				"Remove fog",
 				v -> McQoLConfig.noFog = v);
 		y += ROW;
-		toggle(right, y, "Klare Sicht unter Wasser", McQoLConfig.clearWater,
-				"Unter Wasser weit sehen, der blaue Farbton bleibt",
+		toggle(right, y, "Clear Water", McQoLConfig.clearWater,
+				"See far underwater",
 				v -> McQoLConfig.clearWater = v);
 
 		this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, b -> this.onClose())
@@ -99,8 +99,8 @@ public class McQoLConfigScreen extends Screen {
 				.create(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal(name), (button, v) -> setter.accept(v)));
 	}
 
-	private void slider(int x, int y, String name, double min, double max, double value, boolean percent, Consumer<Double> setter) {
-		this.addRenderableWidget(new ValueSlider(x, y, name, min, max, value, percent, setter));
+	private void slider(int x, int y, String name, double min, double max, double value, Consumer<Double> setter, boolean relative) {
+		this.addRenderableWidget(new ValueSlider(x, y, name, min, max, value, setter, relative));
 	}
 
 	@Override
@@ -115,21 +115,22 @@ public class McQoLConfigScreen extends Screen {
 		this.minecraft.gui.setScreen(this.parent);
 	}
 
-	/** Schieberegler, der einen Wert zwischen min und max einstellt. */
+	/** Slider that sets a value between min and max and shows it in percent. */
 	private static class ValueSlider extends AbstractSliderButton {
 		private final String name;
 		private final double min;
 		private final double max;
-		private final boolean percent;
 		private final Consumer<Double> setter;
+		/** true = percent of max, false = the value itself in percent. */
+		private final boolean relative;
 
-		ValueSlider(int x, int y, String name, double min, double max, double value, boolean percent, Consumer<Double> setter) {
+		ValueSlider(int x, int y, String name, double min, double max, double value, Consumer<Double> setter, boolean relative) {
 			super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), (value - min) / (max - min));
 			this.name = name;
 			this.min = min;
 			this.max = max;
-			this.percent = percent;
 			this.setter = setter;
+			this.relative = relative;
 			this.updateMessage();
 		}
 
@@ -139,10 +140,8 @@ public class McQoLConfigScreen extends Screen {
 
 		@Override
 		protected void updateMessage() {
-			String shown = this.percent
-					? Math.round(this.real() / this.max * 100) + "%"
-					: Math.round(this.real() * 100) + "%";
-			this.setMessage(Component.literal(this.name + ": " + shown));
+			double shown = this.relative ? this.real() / this.max : this.real();
+			this.setMessage(Component.literal(this.name + ": " + Math.round(shown * 100) + "%"));
 		}
 
 		@Override

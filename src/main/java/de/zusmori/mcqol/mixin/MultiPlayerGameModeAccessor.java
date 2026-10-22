@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(MultiPlayerGameMode.class)
 public interface MultiPlayerGameModeAccessor {
-	/** Schickt den aktuell ausgewählten Hotbar-Slot sofort an den Server. */
+	/** Sends the selected hotbar slot to the server right away. */
 	@Invoker("ensureHasSentCarriedItem")
 	void mcqol$ensureHasSentCarriedItem();
 }

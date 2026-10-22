@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WaterFogEnvironment.class)
 public abstract class WaterFogMixin {
 	/**
-	 * Klare Sicht unter Wasser: Der Nebel endet erst weit weg (80 % der Sichtweite, mind. 64 Blöcke).
-	 * Er beginnt aber weiterhin direkt vor dir, deshalb bleibt alles leicht blau getönt.
+	 * Clear Water: the fog ends far away (80% of render distance, at least 64 blocks).
+	 * It still starts right in front of you, so everything keeps a light blue tint.
 	 */
 	@Inject(method = "setupFog", at = @At("TAIL"))
 	private void mcqol$clearWater(FogData fog, Camera camera, ClientLevel level, float renderDistance, DeltaTracker deltaTracker, CallbackInfo ci) {

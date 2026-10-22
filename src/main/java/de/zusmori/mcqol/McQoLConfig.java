@@ -9,33 +9,33 @@ import java.util.Properties;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-/** Einstellungen in .minecraft/config/mcqol.properties */
+/** Settings in .minecraft/config/mcqol.properties */
 public final class McQoLConfig {
 	// Spear Swap
 	public static boolean spearEnabled = true;
-	/** Linksklick gedrückt halten = automatisch weiter lungen, sobald die Angriffsleiste voll ist. */
+	/** Hold left click = keep lunging when the attack bar is full. */
 	public static boolean spearAutoRepeat = true;
-	/** Slot (1-9), auf den geswapped wird, wenn kein Hotbar-Slot leer ist. */
+	/** Slot (1-9) to swap to if no hotbar slot is empty. */
 	public static int spearFallbackSlot = 6;
 
-	// Auto-Elytra
+	// Auto Elytra
 	public static boolean elytraEnabled = true;
-	/** Auf dem Boden: automatisch springen und losfliegen, wenn man eine Rakete benutzt. */
+	/** On the ground: jump and fly when you use a rocket. */
 	public static boolean elytraLaunchFromGround = true;
-	/** Nach der Landung wieder die Brustplatte anziehen. */
+	/** Put the chestplate back on after landing. */
 	public static boolean elytraRestoreChestplate = true;
 
-	// Sicht
+	// Visuals
 	public static boolean lowFire = true;
-	/** Wie weit das Feuer nach unten verschoben wird (0.0 - 0.5). */
+	/** How far the fire moves down (0.0 - 0.5). */
 	public static float fireOffset = 0.3F;
 	public static boolean smallTotem = true;
-	/** Größe der Totem-Animation (0.1 - 1.0, Vanilla = 1.0). */
+	/** Totem pop size (0.1 - 1.0, vanilla = 1.0). */
 	public static float totemScale = 0.5F;
 	public static boolean noFog = true;
 	public static boolean clearWater = true;
 
-	// Animationen
+	// Animations
 	public static boolean noBreakAnimation = true;
 	public static boolean noHurtCam = true;
 
@@ -66,10 +66,10 @@ public final class McQoLConfig {
 				noBreakAnimation = bool(p, "animation.no_break_animation", noBreakAnimation);
 				noHurtCam = bool(p, "animation.no_hurt_cam", noHurtCam);
 			} catch (IOException | NumberFormatException e) {
-				McQoLClient.LOGGER.warn("Konnte mcqol.properties nicht lesen, nutze Standardwerte", e);
+				McQoLClient.LOGGER.warn("Could not read mcqol.properties, using defaults", e);
 			}
 		}
-		save(); // schreibt fehlende Einträge dazu
+		save(); // adds missing entries
 	}
 
 	public static void save() {
@@ -91,7 +91,7 @@ public final class McQoLConfig {
 		try (Writer writer = Files.newBufferedWriter(file())) {
 			p.store(writer, "zusmori's mcQoL");
 		} catch (IOException e) {
-			McQoLClient.LOGGER.warn("Konnte mcqol.properties nicht speichern", e);
+			McQoLClient.LOGGER.warn("Could not save mcqol.properties", e);
 		}
 	}
 

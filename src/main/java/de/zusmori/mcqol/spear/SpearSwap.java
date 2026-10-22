@@ -12,13 +12,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Ablauf:
- * 1. Speer in der Hand + Linksklick: Stoß mit dem Speer, im selben Tick Wechsel auf einen
- *    leeren Hotbar-Slot ("Träger"). Ab jetzt ist der Lunge-Modus aktiv.
- * 2. Im Lunge-Modus löst jeder Linksklick (oder gehaltener Linksklick) aus:
- *    Speer auswählen -> zustechen -> zurück auf den Träger, alles im selben Tick.
- *    Der Cooldown richtet sich so nach dem Träger (leere Hand), nicht nach dem Speer.
- * 3. Wählst du selbst einen anderen Slot, endet der Lunge-Modus.
+ * How it works:
+ * 1. Spear in hand + left click: jab with the spear, then switch to an empty hotbar slot
+ *    (the "carrier") in the same tick. Lunge mode is now on.
+ * 2. In lunge mode every left click (or held left click) does:
+ *    select spear -> jab -> back to the carrier, all in the same tick.
+ *    The cooldown now follows the carrier (empty hand), not the spear.
+ * 3. Picking another slot yourself ends lunge mode.
  */
 public final class SpearSwap {
 	private static final int HOTBAR_SIZE = 9;
@@ -61,14 +61,14 @@ public final class SpearSwap {
 		int useCarrier;
 
 		if (holdingSpear) {
-			// Speer in der Hand: Träger-Slot suchen, sonst Vanilla machen lassen
+			// Spear in hand: find a carrier slot, otherwise let vanilla handle it
 			useSpear = selected;
 			useCarrier = findCarrier(inv, selected);
 			if (useCarrier < 0) {
 				return;
 			}
 		} else if (lungeMode) {
-			// Lunge-Modus: nur weitermachen, wenn du noch auf dem Träger bist und der Speer noch da ist
+			// Lunge mode: only go on if you are still on the carrier and the spear is still there
 			if (selected != carrierSlot || !isSpear(inv.getItem(spearSlot))) {
 				reset();
 				return;
@@ -102,7 +102,7 @@ public final class SpearSwap {
 		lungeMode = true;
 	}
 
-	/** Speer auswählen, zustechen, zurück auf den Träger. Alles im selben Tick. */
+	/** Select spear, jab, back to the carrier. All in the same tick. */
 	private static void doLunge(Minecraft mc, Inventory inv, int spear, int carrier) {
 		MultiPlayerGameModeAccessor gameMode = (MultiPlayerGameModeAccessor) mc.gameMode;
 		MinecraftAccessor client = (MinecraftAccessor) mc;
@@ -117,7 +117,7 @@ public final class SpearSwap {
 		gameMode.mcqol$ensureHasSentCarriedItem();
 	}
 
-	/** Erster leerer Hotbar-Slot, sonst der Ersatz-Slot aus der Config. */
+	/** First empty hotbar slot, otherwise the fallback slot from the config. */
 	private static int findCarrier(Inventory inv, int spear) {
 		for (int i = 0; i < HOTBAR_SIZE; i++) {
 			if (i != spear && inv.getItem(i).isEmpty()) {

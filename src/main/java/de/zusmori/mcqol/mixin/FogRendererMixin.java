@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FogRenderer.class)
 public abstract class FogRendererMixin {
-	/** Kein Nebel: auch den Nebel am Rand der Sichtweite entfernen. */
+	/** No Fog: also remove the fog at the edge of render distance. */
 	@Inject(method = "setupFog", at = @At("RETURN"))
 	private void mcqol$noDistanceFog(Camera camera, int renderDistanceInChunks, DeltaTracker deltaTracker, float darkenWorldAmount,
 			ClientLevel level, CallbackInfoReturnable<FogData> cir) {

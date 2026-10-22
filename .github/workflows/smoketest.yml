@@ -1,4 +1,4 @@
-# Startet Minecraft einmal ohne Bildschirm und prüft, ob die Mod ohne Fehler lädt.
+# Starts Minecraft once without a screen and checks that the mod loads without errors.
 name: smoketest
 on:
   workflow_run:

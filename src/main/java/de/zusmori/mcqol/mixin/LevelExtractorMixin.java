@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelExtractor.class)
 public abstract class LevelExtractorMixin {
-	/** Keine Abbau-Risse: die gesammelten Risse direkt wieder leeren, bevor sie gezeichnet werden. */
+	/** No Break Cracks: clear the cracks before they get drawn. */
 	@Inject(method = "extractBlockDestroyAnimation", at = @At("TAIL"))
 	private void mcqol$noBreakAnimation(Camera camera, LevelRenderState levelRenderState, CallbackInfo ci) {
 		if (McQoLConfig.noBreakAnimation) {

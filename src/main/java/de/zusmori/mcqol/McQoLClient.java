@@ -47,7 +47,7 @@ public class McQoLClient implements ClientModInitializer {
 				McQoLConfig.elytraEnabled = !McQoLConfig.elytraEnabled;
 				McQoLConfig.save();
 				AutoElytra.reset();
-				notify(client, "Auto-Elytra", McQoLConfig.elytraEnabled);
+				notify(client, "Auto Elytra", McQoLConfig.elytraEnabled);
 			}
 			while (openSettings.consumeClick()) {
 				client.gui.setScreen(new McQoLConfigScreen(null));
@@ -55,9 +55,9 @@ public class McQoLClient implements ClientModInitializer {
 			AutoElytra.onTick(client);
 		});
 
-		LOGGER.info("zusmori's mcQoL geladen");
+		LOGGER.info("zusmori's mcQoL loaded");
 
-		// Nur für den automatischen Test auf GitHub: alle Mixins sofort anwenden und prüfen
+		// Only for the automatic test on GitHub: apply and check all mixins right away
 		if (Boolean.getBoolean("mcqol.audit")) {
 			try {
 				org.spongepowered.asm.mixin.MixinEnvironment.getCurrentEnvironment().audit();
@@ -71,8 +71,8 @@ public class McQoLClient implements ClientModInitializer {
 	private static void notify(Minecraft client, String feature, boolean on) {
 		if (client.player != null) {
 			client.player.sendOverlayMessage(on
-					? Component.literal(feature + " AN").withStyle(ChatFormatting.GREEN)
-					: Component.literal(feature + " AUS").withStyle(ChatFormatting.RED));
+					? Component.literal(feature + " ON").withStyle(ChatFormatting.GREEN)
+					: Component.literal(feature + " OFF").withStyle(ChatFormatting.RED));
 		}
 	}
 }

@@ -18,7 +18,7 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	// Mod Menu nur zum Kompilieren, die Mod läuft auch ohne
+	// Mod Menu is only needed to compile, the mod works without it
 	compileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") {
 		transitive = false
 	}
