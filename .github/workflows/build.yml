@@ -6,6 +6,9 @@
 name: build
 on: [pull_request, push]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -28,3 +31,13 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+      - name: push jar to builds branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/out && cp build/libs/*.jar /tmp/out/ && rm -f /tmp/out/*-sources.jar
+          cd /tmp/out
+          git init -q -b builds
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -q -m "Build ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" builds
