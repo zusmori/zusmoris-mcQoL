@@ -6,6 +6,7 @@
 	"description": "Kleine Quality-of-Life-Features: Spear Swap per Linksklick und Auto-Elytra beim Raketenstart.",
 	"authors": ["zusmori"],
 	"license": "MIT",
+	"icon": "assets/mcqol/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": ["de.zusmori.mcqol.McQoLClient"]

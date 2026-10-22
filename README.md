@@ -1,5 +1,7 @@
 # zusmori's mcQoL
 
+<img src="src/main/resources/assets/mcqol/icon.png" width="128" alt="Logo">
+
 Kleine Quality-of-Life-Mod für **Minecraft 26.3 (Fabric)**. Läuft nur im Client und ist für Singleplayer gedacht.
 
 ## Features
