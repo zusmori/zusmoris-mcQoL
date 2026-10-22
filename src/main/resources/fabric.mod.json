@@ -3,13 +3,20 @@
 	"id": "mcqol",
 	"version": "${version}",
 	"name": "zusmori's mcQoL",
-	"description": "Kleine Quality-of-Life-Features: Spear Swap per Linksklick und Auto-Elytra beim Raketenstart.",
-	"authors": ["zusmori"],
+	"description": "Quality-of-Life-Mod: Spear Swap, Auto-Elytra, Low Fire, kleines Totem, kein Nebel, klare Sicht unter Wasser, keine Abbau-Risse und kein Kamerawackeln.",
+	"authors": [
+		"zusmori"
+	],
 	"license": "MIT",
 	"icon": "assets/mcqol/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"client": ["de.zusmori.mcqol.McQoLClient"]
+		"client": [
+			"de.zusmori.mcqol.McQoLClient"
+		],
+		"modmenu": [
+			"de.zusmori.mcqol.config.ModMenuIntegration"
+		]
 	},
 	"mixins": [
 		{
@@ -22,5 +29,8 @@
 		"minecraft": "~26.3",
 		"java": ">=25",
 		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
 	}
 }

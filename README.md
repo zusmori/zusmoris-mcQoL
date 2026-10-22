@@ -19,9 +19,19 @@ Speer-Lunge ohne den langen Speer-Cooldown, per Attribute Swap.
 3. Am Boden springst du automatisch ab, fängst an zu gleiten und die Rakete zündet.
 4. **Nach der Landung** wird die Brustplatte wieder angezogen und die Elytra zurückgelegt.
 
-## Einstellungen
-`.minecraft/config/mcqol.properties`
+### Sicht
+- **Low Fire**: Das Feuer am Bildschirm wird nach unten verschoben (Höhe einstellbar).
+- **Kleines Totem**: Die Totem-Animation wird kleiner angezeigt (Größe einstellbar).
+- **Kein Nebel**: Entfernt den Nebel in der Ferne und am Rand der Sichtweite.
+- **Klare Sicht unter Wasser**: Unter Wasser siehst du weit, der blaue Farbton bleibt, damit du merkst, dass du unter Wasser bist.
 
+### Animationen
+- **Keine Abbau-Risse**: Blendet die Risse beim Abbauen von Blöcken aus.
+- **Kein Kamerawackeln**: Die Kamera wackelt nicht mehr, wenn du Schaden bekommst. Das rote Aufblinken bleibt.
+
+## Einstellungen
+Alles lässt sich über **Mod Menu** (Zahnrad bei der Mod) oder im Spiel mit **O** an- und ausschalten.
+Gespeichert wird in `.minecraft/config/mcqol.properties`.
 | Eintrag | Standard | Bedeutung |
 |---|---|---|
 | `spear.enabled` | true | Spear Swap an/aus |
@@ -30,9 +40,17 @@ Speer-Lunge ohne den langen Speer-Cooldown, per Attribute Swap.
 | `elytra.enabled` | true | Auto-Elytra an/aus |
 | `elytra.launch_from_ground` | true | Am Boden automatisch abspringen |
 | `elytra.restore_chestplate` | true | Nach der Landung Brustplatte wieder anziehen |
+| `visual.low_fire` | true | Feuer tiefer |
+| `visual.fire_offset` | 0.3 | Wie weit tiefer (0.0–0.5) |
+| `visual.small_totem` | true | Kleineres Totem |
+| `visual.totem_scale` | 0.5 | Totem-Größe (0.1–1.0) |
+| `visual.no_fog` | true | Kein Nebel |
+| `visual.clear_water` | true | Klare Sicht unter Wasser |
+| `animation.no_break_animation` | true | Keine Abbau-Risse |
+| `animation.no_hurt_cam` | true | Kein Kamerawackeln |
 
 ## Voraussetzungen
-Fabric Loader 0.19.5+, Fabric API für 26.3, Java 25.
+Fabric Loader 0.19.5+, Fabric API für 26.3, Java 25. Optional: Mod Menu für die Einstellungsseite.
 
 ## Bauen
 GitHub Actions baut die Mod bei jedem Push. Die fertige .jar liegt im Branch `builds`.

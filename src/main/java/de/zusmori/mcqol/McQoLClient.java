@@ -1,6 +1,7 @@
 package de.zusmori.mcqol;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import de.zusmori.mcqol.config.McQoLConfigScreen;
 import de.zusmori.mcqol.elytra.AutoElytra;
 import de.zusmori.mcqol.spear.SpearSwap;
 import net.fabricmc.api.ClientModInitializer;
@@ -20,6 +21,7 @@ public class McQoLClient implements ClientModInitializer {
 
 	private static KeyMapping toggleSpear;
 	private static KeyMapping toggleElytra;
+	private static KeyMapping openSettings;
 
 	@Override
 	public void onInitializeClient() {
@@ -31,6 +33,8 @@ public class McQoLClient implements ClientModInitializer {
 				"key.mcqol.toggle_spear", InputConstants.Type.KEYBOARD, SDLScancode.SDL_SCANCODE_K, category));
 		toggleElytra = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 				"key.mcqol.toggle_elytra", InputConstants.Type.KEYBOARD, SDLScancode.SDL_SCANCODE_J, category));
+		openSettings = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+				"key.mcqol.open_settings", InputConstants.Type.KEYBOARD, SDLScancode.SDL_SCANCODE_O, category));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (toggleSpear.consumeClick()) {
@@ -44,6 +48,9 @@ public class McQoLClient implements ClientModInitializer {
 				McQoLConfig.save();
 				AutoElytra.reset();
 				notify(client, "Auto-Elytra", McQoLConfig.elytraEnabled);
+			}
+			while (openSettings.consumeClick()) {
+				client.gui.setScreen(new McQoLConfigScreen(null));
 			}
 			AutoElytra.onTick(client);
 		});

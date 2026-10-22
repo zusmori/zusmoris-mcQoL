@@ -3,9 +3,15 @@
 	"package": "de.zusmori.mcqol.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
+		"AtmosphericFogMixin",
+		"FogRendererMixin",
+		"GameRendererMixin",
+		"LevelExtractorMixin",
 		"MinecraftAccessor",
 		"MinecraftMixin",
-		"MultiPlayerGameModeAccessor"
+		"MultiPlayerGameModeAccessor",
+		"ScreenEffectRendererMixin",
+		"WaterFogMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
