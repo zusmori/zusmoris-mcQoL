@@ -47,7 +47,7 @@ public final class SpearSwapLogic {
 			reset();
 			return;
 		}
-		if (mc.screen != null || player.isUsingItem()) {
+		if (mc.gui.screen() != null || player.isUsingItem()) {
 			return;
 		}
 
