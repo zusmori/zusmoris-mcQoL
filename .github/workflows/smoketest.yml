@@ -32,9 +32,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p /tmp/out
-          cp gradle-run.txt /tmp/out/ 2>/dev/null
-          cp run/logs/latest.log /tmp/out/ 2>/dev/null
-          cp -r run/crash-reports /tmp/out/ 2>/dev/null
+          cp gradle-run.txt /tmp/out/ 2>/dev/null || true
+          cp run/logs/latest.log /tmp/out/ 2>/dev/null || true
+          cp -r run/crash-reports /tmp/out/ 2>/dev/null || true
           cd /tmp/out
           git init -q -b smoketest
           git config user.name "github-actions"
