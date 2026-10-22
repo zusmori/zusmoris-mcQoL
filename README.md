@@ -15,8 +15,8 @@ Use a rocket and your elytra goes on by itself, from anywhere in your inventory.
 **Low Fire**
 Fire on your screen sits lower.
 
-**Small Totem**
-The totem pop is smaller.
+**Totem Size**
+Make the totem in your hand and the totem pop smaller.
 
 **No Fog**
 No fog in the distance.

@@ -29,8 +29,7 @@ public final class McQoLConfig {
 	public static boolean lowFire = true;
 	/** How far the fire moves down (0.0 - 0.5). */
 	public static float fireOffset = 0.3F;
-	public static boolean smallTotem = true;
-	/** Totem pop size (0.1 - 1.0, vanilla = 1.0). */
+	/** Totem size in hand and for the pop (0.1 - 1.0, vanilla = 1.0). */
 	public static float totemScale = 0.5F;
 	public static boolean noFog = true;
 	public static boolean clearWater = true;
@@ -59,7 +58,6 @@ public final class McQoLConfig {
 				elytraRestoreChestplate = bool(p, "elytra.restore_chestplate", elytraRestoreChestplate);
 				lowFire = bool(p, "visual.low_fire", lowFire);
 				fireOffset = clamp(flt(p, "visual.fire_offset", fireOffset), 0F, 0.5F);
-				smallTotem = bool(p, "visual.small_totem", smallTotem);
 				totemScale = clamp(flt(p, "visual.totem_scale", totemScale), 0.1F, 1F);
 				noFog = bool(p, "visual.no_fog", noFog);
 				clearWater = bool(p, "visual.clear_water", clearWater);
@@ -82,7 +80,6 @@ public final class McQoLConfig {
 		p.setProperty("elytra.restore_chestplate", "" + elytraRestoreChestplate);
 		p.setProperty("visual.low_fire", "" + lowFire);
 		p.setProperty("visual.fire_offset", "" + fireOffset);
-		p.setProperty("visual.small_totem", "" + smallTotem);
 		p.setProperty("visual.totem_scale", "" + totemScale);
 		p.setProperty("visual.no_fog", "" + noFog);
 		p.setProperty("visual.clear_water", "" + clearWater);

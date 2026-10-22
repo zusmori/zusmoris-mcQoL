@@ -3,7 +3,7 @@
 	"id": "mcqol",
 	"version": "${version}",
 	"name": "zusmori's mcQoL",
-	"description": "Small quality of life features: Spear Swap, Auto Elytra, Low Fire, Small Totem, No Fog, Clear Water, No Break Cracks and No Hurt Shake.",
+	"description": "Small quality of life features: Spear Swap, Auto Elytra, Low Fire, Totem Size, No Fog, Clear Water, No Break Cracks and No Hurt Shake.",
 	"authors": [
 		"zusmori"
 	],

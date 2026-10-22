@@ -1,4 +1,4 @@
-# Starts Minecraft once without a screen and checks that the mod loads without errors.
+# Starts Minecraft in a test world, takes screenshots and checks that the mod loads without errors.
 name: smoketest
 on:
   workflow_run:
@@ -16,26 +16,23 @@ jobs:
         with:
           java-version: '25'
           distribution: 'microsoft'
-      - name: install xvfb and mesa
-        run: sudo apt-get update -q && sudo apt-get install -yq xvfb mesa-utils libgl1-mesa-dri
-      - name: run client for a while
+      - run: sudo apt-get update -q && sudo apt-get install -yq xvfb mesa-vulkan-drivers
+      - name: run client game test
         shell: bash
         run: |
           chmod +x ./gradlew
-          mkdir -p run
           set +e
-          export JAVA_TOOL_OPTIONS="-Dmcqol.audit=true" LIBGL_ALWAYS_SOFTWARE=1 MESA_GL_VERSION_OVERRIDE=4.5 MESA_GLSL_VERSION_OVERRIDE=450
-          timeout 420 xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" ./gradlew runClient --no-configuration-cache > gradle-run.txt 2>&1
+          JAVA_TOOL_OPTIONS="-Dmcqol.audit=true" timeout 900 ./gradlew runClientGameTest --stacktrace > gradle-run.txt 2>&1
           echo "exit: $?" >> gradle-run.txt
           true
-      - name: push logs
+      - name: push logs and screenshots
         if: always()
         shell: bash
         run: |
           mkdir -p /tmp/out
           cp gradle-run.txt /tmp/out/ 2>/dev/null || true
-          cp run/logs/latest.log /tmp/out/ 2>/dev/null || true
-          cp -r run/crash-reports /tmp/out/ 2>/dev/null || true
+          find . -path ./.git -prune -o \( -name latest.log -o -name "*.png" -path "*screenshots*" \) -print 2>/dev/null | grep -v "^./src" | while read f; do cp "$f" /tmp/out/ 2>/dev/null || true; done
+          find . -type d -name crash-reports -not -path "./.git/*" -exec cp -r {} /tmp/out/ \; 2>/dev/null || true
           cd /tmp/out
           git init -q -b smoketest
           git config user.name "github-actions"

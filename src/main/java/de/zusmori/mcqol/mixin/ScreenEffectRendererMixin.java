@@ -27,7 +27,7 @@ public abstract class ScreenEffectRendererMixin {
 		poseStack.popPose();
 	}
 
-	/** Small Totem: shrink the totem right before it is drawn. */
+	/** Totem Size: shrink the totem pop right before it is drawn. */
 	@Inject(
 			method = "renderItemActivationAnimation",
 			at = @At(
@@ -37,8 +37,8 @@ public abstract class ScreenEffectRendererMixin {
 	)
 	private void mcqol$smallTotem(PlayerRenderState playerRenderState, PoseStack poseStack, float partialTicks,
 			SubmitNodeCollector collector, CallbackInfo ci) {
-		if (McQoLConfig.smallTotem) {
-			float scale = McQoLConfig.totemScale;
+		float scale = McQoLConfig.totemScale;
+		if (scale < 1.0F) {
 			poseStack.scale(scale, scale, scale);
 		}
 	}

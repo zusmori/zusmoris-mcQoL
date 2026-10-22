@@ -73,10 +73,6 @@ public class McQoLConfigScreen extends Screen {
 		slider(right, y, "Fire Height", 0.0, 0.5, McQoLConfig.fireOffset,
 				v -> McQoLConfig.fireOffset = (float) (double) v, true);
 		y += ROW;
-		toggle(right, y, "Small Totem", McQoLConfig.smallTotem,
-				"Make the totem pop smaller",
-				v -> McQoLConfig.smallTotem = v);
-		y += ROW;
 		slider(right, y, "Totem Size", 0.1, 1.0, McQoLConfig.totemScale,
 				v -> McQoLConfig.totemScale = (float) (double) v, false);
 		y += ROW;

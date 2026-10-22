@@ -1,0 +1,14 @@
+{
+	"schemaVersion": 1,
+	"id": "mcqol-test",
+	"version": "1.0.0",
+	"name": "mcQoL Test",
+	"environment": "client",
+	"entrypoints": {
+		"fabric-client-gametest": ["de.zusmori.mcqol.test.McQoLClientGameTest"]
+	},
+	"depends": {
+		"mcqol": "*",
+		"fabric-api": "*"
+	}
+}

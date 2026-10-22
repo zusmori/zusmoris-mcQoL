@@ -24,6 +24,16 @@ dependencies {
 	}
 }
 
+// Automatic in-game test with screenshots (runs on GitHub)
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "mcqol-test"
+		enableGameTests = false
+		enableClientGameTests = true
+	}
+}
+
 processResources {
 	def version = project.version
 	inputs.property "version", version
