@@ -31,7 +31,7 @@ public class McQoLClientGameTest implements FabricClientGameTest {
 				ctx.takeScreenshot("hand_" + name);
 
 				// Totem pop
-				server.runCommand("damage @a 1000 minecraft:generic");
+				server.runCommand("damage @p 1000 minecraft:generic");
 				ctx.waitTicks(10);
 				ctx.takeScreenshot("pop_" + name);
 				ctx.waitTicks(60);
