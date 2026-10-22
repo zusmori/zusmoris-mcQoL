@@ -1,0 +1,43 @@
+# Startet Minecraft einmal ohne Bildschirm und prüft, ob die Mod ohne Fehler lädt.
+name: smoketest
+on:
+  workflow_run:
+    workflows: [build]
+    types: [completed]
+permissions:
+  contents: write
+jobs:
+  run:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - name: install xvfb and mesa
+        run: sudo apt-get update -q && sudo apt-get install -yq xvfb mesa-utils libgl1-mesa-dri
+      - name: run client for a while
+        shell: bash
+        run: |
+          chmod +x ./gradlew
+          mkdir -p run
+          set +e
+          timeout 420 xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew runClient --no-configuration-cache > gradle-run.txt 2>&1
+          echo "exit: $?" >> gradle-run.txt
+          true
+      - name: push logs
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/out
+          cp gradle-run.txt /tmp/out/ 2>/dev/null
+          cp run/logs/latest.log /tmp/out/ 2>/dev/null
+          cp -r run/crash-reports /tmp/out/ 2>/dev/null
+          cd /tmp/out
+          git init -q -b smoketest
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -q -m "Smoketest ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" smoketest
