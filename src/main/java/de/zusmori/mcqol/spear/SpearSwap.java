@@ -1,7 +1,9 @@
-package de.zusmori.spearswap;
+package de.zusmori.mcqol.spear;
 
-import de.zusmori.spearswap.mixin.MinecraftAccessor;
-import de.zusmori.spearswap.mixin.MultiPlayerGameModeAccessor;
+import de.zusmori.mcqol.McQoLConfig;
+import de.zusmori.mcqol.mixin.MinecraftAccessor;
+import de.zusmori.mcqol.mixin.MultiPlayerGameModeAccessor;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -18,17 +20,17 @@ import net.minecraft.world.item.ItemStack;
  *    Der Cooldown richtet sich so nach dem Träger (leere Hand), nicht nach dem Speer.
  * 3. Wählst du selbst einen anderen Slot, endet der Lunge-Modus.
  */
-public final class SpearSwapLogic {
+public final class SpearSwap {
 	private static final int HOTBAR_SIZE = 9;
 
 	private static boolean lungeMode = false;
 	private static int spearSlot = -1;
 	private static int carrierSlot = -1;
 
-	private SpearSwapLogic() {}
+	private SpearSwap() {}
 
 	public static boolean isLungeModeActive() {
-		return lungeMode && SpearSwapConfig.enabled;
+		return lungeMode && McQoLConfig.spearEnabled;
 	}
 
 	public static void reset() {
@@ -38,12 +40,12 @@ public final class SpearSwapLogic {
 	}
 
 	public static boolean isSpear(ItemStack stack) {
-		return !stack.isEmpty() && stack.is(ItemTags.SPEARS);
+		return !stack.isEmpty() && (stack.is(ItemTags.SPEARS) || stack.has(DataComponents.PIERCING_WEAPON));
 	}
 
 	public static void onKeybinds(Minecraft mc) {
 		LocalPlayer player = mc.player;
-		if (!SpearSwapConfig.enabled || player == null || mc.gameMode == null) {
+		if (!McQoLConfig.spearEnabled || player == null || mc.gameMode == null) {
 			reset();
 			return;
 		}
@@ -85,7 +87,7 @@ public final class SpearSwapLogic {
 
 		boolean repeat = lungeMode
 				&& !holdingSpear
-				&& SpearSwapConfig.autoRepeat
+				&& McQoLConfig.spearAutoRepeat
 				&& attack.isDown()
 				&& player.getAttackStrengthScale(0.0F) >= 1.0F;
 
@@ -106,13 +108,13 @@ public final class SpearSwapLogic {
 		MinecraftAccessor client = (MinecraftAccessor) mc;
 
 		inv.setSelectedSlot(spear);
-		gameMode.spearswap$ensureHasSentCarriedItem();
+		gameMode.mcqol$ensureHasSentCarriedItem();
 
-		client.spearswap$setMissTime(0);
-		client.spearswap$startAttack();
+		client.mcqol$setMissTime(0);
+		client.mcqol$startAttack();
 
 		inv.setSelectedSlot(carrier);
-		gameMode.spearswap$ensureHasSentCarriedItem();
+		gameMode.mcqol$ensureHasSentCarriedItem();
 	}
 
 	/** Erster leerer Hotbar-Slot, sonst der Ersatz-Slot aus der Config. */
@@ -122,7 +124,7 @@ public final class SpearSwapLogic {
 				return i;
 			}
 		}
-		int fallback = SpearSwapConfig.fallbackSlot - 1;
+		int fallback = McQoLConfig.spearFallbackSlot - 1;
 		if (fallback >= 0 && fallback < HOTBAR_SIZE && fallback != spear && !isSpear(inv.getItem(fallback))) {
 			return fallback;
 		}

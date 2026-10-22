@@ -3,7 +3,7 @@ plugins {
 }
 
 base {
-	archivesName = 'zusmoris-spear-swap'
+	archivesName = 'zusmoris-mcqol'
 }
 
 dependencies {

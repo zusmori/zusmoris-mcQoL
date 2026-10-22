@@ -1,18 +1,18 @@
 {
 	"schemaVersion": 1,
-	"id": "spearswap",
+	"id": "mcqol",
 	"version": "${version}",
-	"name": "zusmori's Spear Swap",
-	"description": "Erkennt Speere und macht den Lunge-Attribute-Swap automatisch per Linksklick.",
+	"name": "zusmori's mcQoL",
+	"description": "Kleine Quality-of-Life-Features: Spear Swap per Linksklick und Auto-Elytra beim Raketenstart.",
 	"authors": ["zusmori"],
 	"license": "MIT",
 	"environment": "client",
 	"entrypoints": {
-		"client": ["de.zusmori.spearswap.SpearSwapClient"]
+		"client": ["de.zusmori.mcqol.McQoLClient"]
 	},
 	"mixins": [
 		{
-			"config": "spearswap.mixins.json",
+			"config": "mcqol.mixins.json",
 			"environment": "client"
 		}
 	],

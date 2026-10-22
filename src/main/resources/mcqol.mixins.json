@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "de.zusmori.spearswap.mixin",
+	"package": "de.zusmori.mcqol.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
 		"MinecraftAccessor",
